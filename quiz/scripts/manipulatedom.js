@@ -21,11 +21,35 @@ function createTxtNode(txt) {
   return txtNode;
 }
 
+function createBtnNode(childNode, e, l) {
+  let btnNode = document.createElement("button");
+  btnNode.addEventListener(e, l)
+  btnNode.appendChild(childNode);
+  return btnNode;
+}
+
+function createInputNode(txt) {
+  let inputNode = document.createElement("input");
+  inputNode.type = 'text';
+  inputNode.placeholder = txt;
+  return inputNode;
+}
+
+function openEditTextField(colNode) {
+  let newChildNode = createInputNode("Enter Cell (x,y) ...");
+  colNode.replaceChild(
+      newChildNode,
+      colNode.childNodes[0]
+  );
+}
+
 function addTable() {
   const tableNode = document.createElement("table");
   for(let i = 0; i < 3; i++) {
     let col1 = createTDNode(createTxtNode("Cell (" + i + ", 0)"));
-    tableNode.appendChild(createTRNode([col1]));
+    let col2 = createTDNode(createBtnNode(
+        createTxtNode("Edit Text"), "click", () => openEditTextField(col1)));
+    tableNode.appendChild(createTRNode([col1, col2]));
   }
   document.getElementById("root").appendChild(tableNode);
 }
